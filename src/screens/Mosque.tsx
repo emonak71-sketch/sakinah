@@ -48,7 +48,10 @@ export default function Mosque() {
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
 
-  useEffect(() => {
+  const requestLocation = () => {
+    setLoading(true);
+    setError(null);
+    
     if (!navigator.geolocation) {
       setError('আপনার ব্রাউজার লোকেশন সাপোর্ট করে না।');
       setLoading(false);
@@ -63,10 +66,20 @@ export default function Mosque() {
         setLoading(false);
       },
       (err) => {
-        setError('লোকেশন পাওয়া যায়নি। দয়া করে পারমিশন চেক করুন।');
+        console.error('Geolocation error:', err);
+        if (err.code === 1) {
+          setError('লোকেশন পারমিশন ব্লক করা হয়েছে। ব্রাউজার সেটিংস থেকে পারমিশন দিন।');
+        } else {
+          setError('লোকেশন পাওয়া যায়নি। দয়া করে আবার চেষ্টা করুন।');
+        }
         setLoading(false);
-      }
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
     );
+  };
+
+  useEffect(() => {
+    requestLocation();
   }, []);
 
   const fetchNearbyMosques = async (lat: number, lng: number) => {
@@ -212,8 +225,8 @@ export default function Mosque() {
             <MapPin className="w-12 h-12 text-error opacity-50" />
             <p className="text-on-surface-variant font-medium">{error}</p>
             <button 
-              onClick={() => window.location.reload()}
-              className="px-6 py-2 bg-primary text-white rounded-full text-sm font-bold"
+              onClick={requestLocation}
+              className="px-6 py-2 bg-primary text-white rounded-full text-sm font-bold shadow-lg active:scale-95 transition-all"
             >
               আবার চেষ্টা করুন
             </button>

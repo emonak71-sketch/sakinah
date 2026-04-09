@@ -28,11 +28,11 @@ export default function Layout({ children }: LayoutProps) {
       {/* Top App Bar */}
       <header className="fixed top-0 w-full z-50 bg-background/85 backdrop-blur-md flex justify-between items-center px-6 py-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center overflow-hidden ring-2 ring-primary/10">
+          <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden ring-2 ring-primary/10">
             <img 
-              src="https://picsum.photos/seed/divine/200/200" 
-              alt="Profile" 
-              className="w-full h-full object-cover"
+              src="/logo.svg" 
+              alt="Sakinah Logo" 
+              className="w-full h-full object-cover p-1"
               referrerPolicy="no-referrer"
             />
           </div>

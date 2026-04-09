@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Quote, X, Bell } from 'lucide-react';
 import { hadithService, Hadith } from '@/src/services/hadithService';
+import { notificationService } from '@/src/services/notificationService';
 
 export default function HadithNotification() {
   const [hadith, setHadith] = useState<Hadith | null>(null);
@@ -15,10 +16,19 @@ export default function HadithNotification() {
       const dailyHadith = hadithService.getDailyHadith();
       setHadith(dailyHadith);
       
+      // Request permission silently
+      notificationService.requestPermission();
+
       // Show after a short delay
       const timer = setTimeout(() => {
         setIsVisible(true);
         localStorage.setItem('lastHadithShown', today);
+        
+        // Also try to show a native notification
+        notificationService.showNotification('আজকের হাদিস', {
+          body: dailyHadith.text,
+          tag: 'daily-hadith'
+        });
       }, 3000);
 
       return () => clearTimeout(timer);
