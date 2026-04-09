@@ -24,6 +24,5 @@ jobs:
 
       - name: Build Project
         run: npm run build
-
-      - name: Deploy to Capgo
-        run: npx @capgo/cli@latest bundle upload --app-id com.sakinah --channel=production --apikey=${{ secrets.CAPGO_TOKEN }}
+- name: Deploy to Capgo
+        run: npx @capgo/cli@latest bundle upload --channel=production --apikey=${{ secrets.CAPGO_TOKEN }}
