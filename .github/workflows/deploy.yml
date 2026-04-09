@@ -23,4 +23,4 @@ jobs:
         run: npm run build
 
       - name: Deploy to Capgo
-        run: npx @capgo/cli@latest bundle upload --app-id 02533bbe-581b-4b3b-a6ef-0c4d328c5597 --channel production --apikey ${{ secrets.CAPGO_TOKEN }}
+        run: npx @capgo/cli@latest upload --apikey ${{ secrets.CAPGO_TOKEN }} --channel production
